@@ -1,0 +1,201 @@
+@import 'tailwindcss';
+@import '@heroui/styles';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #fafafc;
+  --surface: #ffffff;
+  --surface-2: #f0f1f7;
+  --ink: #0a0d1f;
+  --ink-2: #5a6078;
+  --line: #e4e6ef;
+  --brand: #2962ff;
+  --brand-soft: #e8eeff;
+  --cta: #ffb800;
+  --cta-hover: #ffc933;
+  --cta-ink: #14161f;
+  --ok: #00875a;
+  --bad: #c8331b;
+  --wa: #25d366;
+  --focus: #8a3ffc;
+  color-scheme: light;
+}
+
+:root.dark {
+  --bg: #080a16;
+  --surface: #11152b;
+  --surface-2: #181d38;
+  --ink: #f2f4fc;
+  --ink-2: #a3abc8;
+  --line: #262c4f;
+  --brand: #7396ff;
+  --brand-soft: #1b2559;
+  --ok: #3ccf91;
+  --bad: #ff7a63;
+  --focus: #b58bff;
+  color-scheme: dark;
+}
+
+/* Seções escuras: reaproveitam os mesmos tokens com valores invertidos */
+.night {
+  --bg: #0b0e20;
+  --surface: #131833;
+  --surface-2: #1a2040;
+  --ink: #f2f4fc;
+  --ink-2: #a3abc8;
+  --line: #262c4f;
+  --brand: #7396ff;
+  --brand-soft: #1b2559;
+  --ok: #3ccf91;
+  --bad: #ff7a63;
+  --focus: #b58bff;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  --color-cta-ink: var(--cta-ink);
+  --color-ok: var(--ok);
+  --color-bad: var(--bad);
+  --color-wa: var(--wa);
+  --font-display: 'Sora', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+  --breakpoint-sm: 640px;
+  --breakpoint-lg: 960px;
+  --breakpoint-xl: 1200px;
+}
+
+html {
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--cta);
+  color: var(--cta-ink);
+}
+
+/* ---------- Utilitários ---------- */
+@utility container-lp {
+  width: 100%;
+  max-width: calc(1240px + 2 * 32px);
+  margin-inline: auto;
+  padding-inline: max(20px, env(safe-area-inset-left));
+  @media (width >= 960px) {
+    padding-inline: 32px;
+  }
+}
+
+@utility section-y {
+  padding-block: clamp(80px, 11vw, 160px);
+}
+
+@utility t-display {
+  font-size: clamp(2.6rem, 0.9rem + 6.6vw, 6.4rem);
+  line-height: 1.01;
+  font-weight: 700;
+}
+@utility t-h2 {
+  font-size: clamp(2rem, 1.1rem + 3.6vw, 4.2rem);
+  line-height: 1.04;
+  font-weight: 700;
+}
+@utility t-lead {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  line-height: 1.5;
+}
+
+/* Faixa em movimento (logos e texto gigante) */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-speed, 40s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Texto contornado */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+/* Carrossel sem barra */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Pulso do WhatsApp: no máximo 3 ciclos */
+@keyframes wa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgb(37 211 102 / 0);
+  }
+}
+.wa-pulse {
+  animation: wa-pulse 2s ease-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

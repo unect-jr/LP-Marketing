@@ -1,11 +1,19 @@
 import Lenis from 'lenis'
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { Diagnostic } from './components/Diagnostic'
 import { Footer, MobileBar, WhatsAppFloat } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
-import { Cases, Compare, Faq, HowItWorks, Logos, Modules, Testimonials } from './components/Sections'
+import { Cases } from './components/sections/Cases'
+import { Compare } from './components/sections/Compare'
+import { Faq } from './components/sections/Faq'
+import { HowItWorks } from './components/sections/HowItWorks'
+import { Logos } from './components/sections/Logos'
+import { Modules } from './components/sections/Modules'
+import { Testimonials } from './components/sections/Testimonials'
 import { FAQ } from './lib/content'
+
+const ExitIntent = lazy(() => import('./components/ExitIntent').then((m) => ({ default: m.ExitIntent })))
 
 const JSON_LD = {
   '@context': 'https://schema.org',
@@ -14,7 +22,7 @@ const JSON_LD = {
       '@type': ['Organization', 'LocalBusiness'],
       name: 'Unect Jr.',
       url: 'https://unect.com.br',
-      logo: 'https://unect.com.br/icon-512.png',
+      logo: 'https://lp-marketing-sigma.vercel.app/icon-512.png',
       email: 'unect@unect.com.br',
       telephone: '+55-43-8869-6363',
       address: {
@@ -46,10 +54,15 @@ const JSON_LD = {
 }
 
 export default function App() {
-  // Rolagem suave (Lenis), desligada com prefers-reduced-motion
+  const [idle, setIdle] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setIdle(true), 3000)
+    return () => clearTimeout(t)
+  }, [])
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const lenis = new Lenis({ duration: 1.15, anchors: { offset: -88 } })
+    const lenis = new Lenis({ duration: 1.15, anchors: true })
     let raf = 0
     const loop = (t: number) => {
       lenis.raf(t)
@@ -86,6 +99,11 @@ export default function App() {
       <Footer />
       <WhatsAppFloat />
       <MobileBar />
+      {idle && (
+        <Suspense fallback={null}>
+          <ExitIntent />
+        </Suspense>
+      )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
     </>
   )

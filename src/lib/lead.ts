@@ -20,7 +20,6 @@ export const EMPTY_LEAD: LeadValues = {
   equipe: '',
 }
 
-/** Máscara (XX) XXXXX-XXXX / (XX) XXXX-XXXX */
 export function maskPhone(raw: string): string {
   const d = raw.replace(/\D/g, '').slice(0, 11)
   if (d.length <= 2) return d.length ? `(${d}` : ''
@@ -67,7 +66,6 @@ export function captureUtms(): Record<string, string> {
       if (v) out[k] = v.slice(0, 200)
     }
   } catch {
-    /* ambiente sem URL */
   }
   return out
 }
@@ -95,8 +93,6 @@ export function whatsappUrl(text?: string): string {
   return text ? `${base}?text=${encodeURIComponent(text)}` : base
 }
 
-/* ---------- Rastreamento (silencioso se os pixels não existirem) ---------- */
-
 type Fn = (...args: unknown[]) => void
 interface TrackWindow {
   gtag?: Fn
@@ -110,11 +106,8 @@ function w(): TrackWindow {
 export function trackLead(v: LeadValues) {
   try {
     w().gtag?.('event', 'generate_lead', { segmento: v.segmento, equipe: v.equipe })
-    // TODO: preencher o ID real de conversão do Google Ads antes de publicar
-    // w().gtag?.('event', 'conversion', { send_to: 'AW-XXXXXXXXX/XXXXXXXXXXXX' })
     w().fbq?.('track', 'Lead', { content_name: 'Diagnostico Gratuito' })
   } catch {
-    /* nunca quebrar a UI por causa de tracking */
   }
 }
 
@@ -122,6 +115,5 @@ export function trackWhatsappClick() {
   try {
     w().gtag?.('event', 'contact', { method: 'whatsapp' })
   } catch {
-    /* noop */
   }
 }

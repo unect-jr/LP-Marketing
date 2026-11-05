@@ -8,30 +8,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Gestão Sob Medida em Cornélio Procópio | Unect Jr.</title>
     <meta name="description" content="Saia das planilhas com um sistema de gestão sob medida em Cornélio Procópio e região. Diagnóstico grátis com a Unect Jr. e proposta em até 24h." />
-    <link rel="canonical" href="https://unect.com.br/sistemas-sob-medida" />
-    <meta name="theme-color" content="#f6f7fb" />
+    <link rel="canonical" href="https://lp-marketing-sigma.vercel.app/" />
+    <meta name="theme-color" content="#fafafc" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Unect Jr." />
     <meta property="og:title" content="Gestão Sob Medida em Cornélio Procópio | Unect Jr." />
     <meta property="og:description" content="Financeiro, estoque, ordens de serviço e DRE em um só sistema, feito para a rotina da sua equipe." />
-    <meta property="og:url" content="https://unect.com.br/sistemas-sob-medida" />
-    <meta property="og:image" content="https://unect.com.br/og/og-image-unect-v2.jpg" />
+    <meta property="og:url" content="https://lp-marketing-sigma.vercel.app/" />
+    <meta property="og:image" content="https://lp-marketing-sigma.vercel.app/og/og-image-unect-v2.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Unect Jr.: sistema de gestão sob medida para empresas de Cornélio Procópio e região" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+    <meta name="twitter:title" content="Gestão Sob Medida em Cornélio Procópio | Unect Jr." />
+    <meta name="twitter:description" content="Financeiro, estoque, ordens de serviço e DRE em um só sistema, feito para a rotina da sua equipe." />
+    <meta name="twitter:image" content="https://lp-marketing-sigma.vercel.app/og/og-image-unect-v2.jpg" />
     <script>
       (function () {
-        var m = window.matchMedia('(prefers-color-scheme: dark)');
-        function s() { document.documentElement.classList.toggle('dark', m.matches); document.documentElement.dataset.theme = m.matches ? 'dark' : 'light'; }
-        s(); m.addEventListener('change', s);
+        var saved = null;
+        try { saved = localStorage.getItem('lp_theme'); } catch (e) {}
+        var dark = saved === 'dark';
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
       })();
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="padding:24px;font-family:system-ui,sans-serif">
+        Sistema de gestão sob medida em Cornélio Procópio. Peça seu diagnóstico gratuito pelo
+        <a href="https://wa.me/554388696363">WhatsApp da Unect Jr.</a>
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

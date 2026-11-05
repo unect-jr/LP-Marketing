@@ -1,9 +1,7 @@
 @import 'tailwindcss';
-@import '@heroui/styles';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ---------- Tokens ---------- */
 :root {
   --bg: #fafafc;
   --surface: #ffffff;
@@ -38,7 +36,6 @@
   color-scheme: dark;
 }
 
-/* Seções escuras: reaproveitam os mesmos tokens com valores invertidos */
 .night {
   --bg: #0b0e20;
   --surface: #131833;
@@ -70,15 +67,12 @@
   --color-ok: var(--ok);
   --color-bad: var(--bad);
   --color-wa: var(--wa);
-  --font-display: 'Sora', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Sora Variable', 'Sora', 'Segoe UI', system-ui, sans-serif;
   --font-sans: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
-  --breakpoint-sm: 640px;
-  --breakpoint-lg: 960px;
-  --breakpoint-xl: 1200px;
 }
 
 html {
-  scroll-padding-top: 96px;
+  scroll-padding-top: 0; 
   -webkit-text-size-adjust: 100%;
 }
 
@@ -91,7 +85,6 @@ body {
   overflow-x: clip;
 }
 
-/* Lenis */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -118,13 +111,12 @@ h3 {
   color: var(--cta-ink);
 }
 
-/* ---------- Utilitários ---------- */
 @utility container-lp {
   width: 100%;
   max-width: calc(1240px + 2 * 32px);
   margin-inline: auto;
   padding-inline: max(20px, env(safe-area-inset-left));
-  @media (width >= 960px) {
+  @media (width >= 1024px) {
     padding-inline: 32px;
   }
 }
@@ -148,7 +140,6 @@ h3 {
   line-height: 1.5;
 }
 
-/* Faixa em movimento (logos e texto gigante) */
 @keyframes marquee {
   to {
     transform: translateX(-50%);
@@ -163,21 +154,20 @@ h3 {
   animation-play-state: paused;
 }
 
-/* Texto contornado */
 .text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--ink) 45%, transparent);
+  color: var(--bg);
+  -webkit-text-stroke: 3px color-mix(in srgb, var(--ink) 55%, var(--bg));
+  paint-order: stroke fill;
+  stroke-linejoin: round;
 }
 
-/* Carrossel sem barra */
-.no-scrollbar {
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+@keyframes exit-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
 }
 
-/* Pulso do WhatsApp: no máximo 3 ciclos */
 @keyframes wa-pulse {
   0% {
     box-shadow: 0 0 0 0 rgb(37 211 102 / 0.55);

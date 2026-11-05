@@ -11,9 +11,8 @@ const BANNER = ['Sua empresa cresceu', 'Seu sistema também']
 export function Footer() {
   return (
     <footer className="night overflow-hidden border-t border-line">
-      {/* Faixa gigante, decorativa */}
       <div aria-hidden className="select-none py-10 sm:py-14">
-        <Marquee speed={55}>
+        <Marquee speed={120} repeat={1}>
           {[...BANNER, ...BANNER].map((t, i) => (
             <span
               key={i}
@@ -65,7 +64,6 @@ export function Footer() {
   )
 }
 
-/** WhatsApp flutuante (desktop) com pulso de 3 ciclos. */
 export function WhatsAppFloat() {
   return (
     <a
@@ -82,7 +80,6 @@ export function WhatsAppFloat() {
   )
 }
 
-/** Barra fixa do celular: CTA + WhatsApp; some quando o formulário está visível. */
 export function MobileBar() {
   const [hide, setHide] = useState(false)
   const reduce = useReducedMotion()

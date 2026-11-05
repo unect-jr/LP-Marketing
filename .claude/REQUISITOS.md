@@ -108,7 +108,7 @@ _Origem: utm_source=… | utm_campaign=… (ou "acesso direto")_
 ## 3. Regras de conteúdo e ética de conversão
 
 - **Sem escassez falsa.** O aviso "Apenas 4 diagnósticos esta semana" da LP antiga só volta se houver um controle real de agenda. Contador fixo no código é proibido.
-- **Sem pop-up de saída.** O modal de intenção de saída da versão antiga foi removido: duplicava o formulário e atrapalha no celular.
+- **Pop-up de saída (RF-09).** Abre uma única vez por sessão, só em dispositivos com mouse, quando o cursor sai pelo topo da janela (depois de 8 s na página). Não abre se o lead já foi enviado ou se o formulário principal está na tela. Reaproveita o mesmo formulário (4 campos obrigatórios), com fechar por X, Esc, clique no fundo e "Agora não". Não aparece no celular.
 - Números e depoimentos são sempre reais e atribuídos (nome + projeto). Métricas do dashboard ilustrativo do hero são marcadas como exemplo no `aria-label`.
 - Tom: direto, em segunda pessoa ("sua empresa"), frases curtas, sem jargão técnico (falar "relatório" antes de "BI", "sistema" antes de "ERP").
 - Localização: citar Cornélio Procópio e Norte do Paraná no hero (SEO local), sem repetir em todo parágrafo. A Unect Jr. é de Cornélio Procópio: não citar Londrina como sede ou foco.
@@ -141,7 +141,7 @@ _Origem: utm_source=… | utm_campaign=… (ou "acesso direto")_
 - Um único `<h1>`; seções com `aria-labelledby` apontando para o `<h2>`.
 - Respeitar `prefers-reduced-motion`: sem animação de entrada nem pulso.
 - Formulário: todo campo com `<label>` visível, `autocomplete` correto, erros anunciados com `aria-live="polite"`.
-- A página funciona com tema claro e escuro do sistema.
+- A página abre sempre no tema **claro** e tem um botão no header para trocar para o escuro. A escolha fica salva no navegador; o tema do sistema não é usado como padrão.
 
 ### RNF-03 Responsividade
 

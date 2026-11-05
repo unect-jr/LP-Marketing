@@ -146,13 +146,31 @@ export const STEPS = [
   { title: 'Implantação e treinamento', when: 'Go-live assistido', desc: 'Migração das planilhas, treinamento prático e suporte na virada.' },
 ]
 
-export const CASES: { type: string; name: string; text: string; href?: string }[] = [
-  { type: 'Aplicativo mobile', name: 'AETA', text: 'Carteirinha digital e controle de linhas e horários para estudantes.', href: '/cases/aeta.html' },
-  { type: 'Sistema de gestão', name: 'P3 Agro', text: 'Dados do campo, relatórios operacionais e rotinas administrativas num só lugar.' },
-  { type: 'Sistema de gestão', name: 'Ficha Trans-Operatória', text: 'Fichas médicas e acompanhamento de dosagens e horários em tempo real.' },
-  { type: 'Sistema de gestão', name: 'Clínica Ética', text: 'Agendamentos, controle de exames e relatórios do atendimento.' },
-  { type: 'Site + blog', name: 'Antônio Lima Advogados', text: 'Site com blog integrado e otimizado para busca, focado em servidores públicos.' },
-  { type: 'Website', name: 'Cacto Comunicação EJ', text: 'Site institucional responsivo para serviços de marketing.' },
+export type CaseItem = {
+  type: string
+  name: string
+  text: string
+  logo?: string
+  details?: string
+  images?: string[]
+}
+
+const shots = (slug: string, names: string[]) => names.map((n) => `/cases/${slug}/${n}.webp`)
+
+export const CASES: CaseItem[] = [
+  { type: 'Aplicativo mobile', name: 'AETA', logo: 'Nova AETA', text: 'Carteirinha digital e controle de linhas e horários para estudantes.', images: shots('aeta', ['login', 'carteirinha']) },
+  { type: 'Sistema de gestão', name: 'P3 Agro', logo: 'P3 Agro', text: 'Dados do campo, relatórios operacionais e rotinas administrativas num só lugar.' },
+  { type: 'Sistema de gestão', name: 'Ficha Trans-Operatória', text: 'Fichas médicas e acompanhamento de dosagens e horários em tempo real.', images: shots('ficha-trans-operatoria', ['dashboard', 'cadastro-dados-clinicos', 'cadastro-dados-clinicos-2']) },
+  {
+    type: 'Sistema de gestão',
+    name: 'Clínica Ética',
+    logo: 'Clínica Ética',
+    text: 'Agendamentos, controle de exames e relatórios do atendimento.',
+    details: 'Plataforma completa de agendamentos diários, controle de exames e relatórios para gestão otimizada do fluxo de atendimento médico.',
+    images: shots('clinica-etica', ['login-admin', 'lista-agendamentos', 'lista-procedimentos']),
+  },
+  { type: 'Site + blog', name: 'Antônio Lima Advogados', logo: 'Antônio Lima Advogados', text: 'Site com blog integrado e otimizado para busca, focado em servidores públicos.', images: shots('antonio-lima', ['home', 'artigo', 'editor']) },
+  { type: 'Website', name: 'Cacto Comunicação EJ', logo: 'Cacto Comunicação', text: 'Site institucional responsivo para serviços de marketing.', images: shots('cacto', ['home', 'quem-somos']) },
 ]
 
 export const TESTIMONIALS: { quote: string; name: string; project: string; avatar?: string }[] = [

@@ -1,24 +1,24 @@
 import { motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { NAV } from '../lib/content'
+import { ThemeToggle } from './ThemeToggle'
 import { CtaButton } from './ui'
 
 export function Logo({ forceLight = false }: { forceLight?: boolean }) {
   return (
     <a href="#top" className="flex shrink-0 items-center" aria-label="Unect Jr. UTFPR-CP, voltar ao topo">
       {forceLight ? (
-        <img src="/logo/unect-logo-branco.png" alt="Unect Jr." width={168} height={32} className="h-8 w-auto" />
+        <img src="/logo/unect-logo-branco.png" alt="Unect Jr." width={102} height={32} className="h-8 w-auto" />
       ) : (
         <>
-          <img src="/logo/unect-logo.png" alt="Unect Jr." width={168} height={32} className="h-8 w-auto dark:hidden" />
-          <img src="/logo/unect-logo-branco.png" alt="" aria-hidden width={168} height={32} className="hidden h-8 w-auto dark:block" />
+          <img src="/logo/unect-logo.png" alt="Unect Jr." width={102} height={32} className="h-8 w-auto dark:hidden" />
+          <img src="/logo/unect-logo-branco.png" alt="" aria-hidden width={102} height={32} className="hidden h-8 w-auto dark:block" />
         </>
       )}
     </a>
   )
 }
 
-/** Header flutuante em pílula; ganha mais fundo depois de 8px de rolagem. */
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const reduce = useReducedMotion()
@@ -55,7 +55,12 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <CtaButton label="Diagnóstico grátis" block={false} small />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <div className="hidden sm:block">
+            <CtaButton label="Diagnóstico grátis" block={false} small />
+          </div>
+        </div>
       </div>
     </motion.header>
   )

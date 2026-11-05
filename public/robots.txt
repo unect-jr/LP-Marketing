@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lp-marketing-sigma.vercel.app/sitemap.xml

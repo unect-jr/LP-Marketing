@@ -3,9 +3,9 @@ import { animate, motion, useInView, useReducedMotion, type HTMLMotionProps } fr
 import { useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
 import { CTA_LABEL } from '../lib/content'
 
+export const TOTAL_SECTIONS = 7
 const EASE = [0.22, 1, 0.36, 1] as const
 
-/** Entrada suave ao rolar. Estado inicial com opacity .6: nunca fica invisível sem JS. */
 export function Reveal({
   children,
   delay = 0,
@@ -27,7 +27,6 @@ export function Reveal({
   )
 }
 
-/** Título que sobe palavra por palavra, com máscara. `accentFrom` pinta as palavras seguintes de azul. */
 export function SplitText({
   text,
   as: Tag = 'span',
@@ -51,9 +50,9 @@ export function SplitText({
     ? { whileInView: { y: 0 }, viewport: { once: true, margin: '0px 0px -10% 0px' } }
     : { animate: { y: 0 } }
   return (
-    <Tag id={id} aria-label={text} className={className}>
+    <Tag id={id} className={className}>
       {words.map((w, i) => (
-        <span key={i} aria-hidden>
+        <span key={i}>
           <span className="inline-block overflow-hidden pb-[0.14em] align-bottom [margin-bottom:-0.14em]">
             <motion.span
               className={`inline-block ${accentFrom !== undefined && i >= accentFrom ? 'text-brand' : ''}`}
@@ -71,7 +70,6 @@ export function SplitText({
   )
 }
 
-/** Cabeçalho de seção numerado: "01 / 07 — Comparativo" + título grande. */
 export function SectionHead({
   id,
   n,
@@ -91,7 +89,7 @@ export function SectionHead({
     <div className={`flex flex-col gap-6 ${className}`}>
       <Reveal className="flex items-center gap-4 text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-ink-2">
         <span className="font-display text-brand tabular-nums">
-          {String(n).padStart(2, '0')} <span className="text-ink-2">/ 07</span>
+          {String(n).padStart(2, '0')} <span className="text-ink-2">/ {String(TOTAL_SECTIONS).padStart(2, '0')}</span>
         </span>
         <span aria-hidden className="h-px w-10 bg-line" />
         {label}
@@ -116,7 +114,6 @@ export function Chip({ children, className = '' }: { children: ReactNode; classN
   )
 }
 
-/** Botão principal: único texto de CTA; sempre leva a #diagnostico. */
 export function CtaButton({
   label = CTA_LABEL,
   className = '',
@@ -147,7 +144,6 @@ export function CtaButton({
   )
 }
 
-/** Número que sobe até o valor ao entrar na tela. */
 export function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?: string; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true })
@@ -167,28 +163,33 @@ export function CountUp({ to, prefix = '', suffix = '' }: { to: number; prefix?:
   )
 }
 
-/** Faixa infinita. O conteúdo é duplicado; a cópia fica oculta para leitores de tela. */
 export function Marquee({
   children,
   speed = 40,
   reverse = false,
+  repeat = 3,
   className = '',
 }: {
   children: ReactNode
   speed?: number
   reverse?: boolean
+  repeat?: number
   className?: string
 }) {
+  const half = (h: number) =>
+    Array.from({ length: repeat }, (_, i) => (
+      <div key={`${h}-${i}`} className="flex shrink-0 items-center" aria-hidden={h > 0 || i > 0 ? true : undefined}>
+        {children}
+      </div>
+    ))
   return (
     <div className={`marquee overflow-hidden ${className}`}>
       <div
         className="marquee-track"
         style={{ ['--marquee-speed' as string]: `${speed}s`, animationDirection: reverse ? 'reverse' : 'normal' }}
       >
-        <div className="flex shrink-0 items-center">{children}</div>
-        <div className="flex shrink-0 items-center" aria-hidden>
-          {children}
-        </div>
+        <div className="flex shrink-0 items-center">{half(0)}</div>
+        <div className="flex shrink-0 items-center">{half(1)}</div>
       </div>
     </div>
   )

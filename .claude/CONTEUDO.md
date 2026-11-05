@@ -5,7 +5,7 @@ Fonte única dos textos da página. Toda frase aqui vem da LP anterior (`landing
 ---
 
 ## Header
-- Logo: Unect Jr. · UTFPR-CP
+- Logo: Unect Jr. (sem a tag UTFPR-CP)
 - Âncoras: Comparativo · Módulos · Como funciona · Cases · Dúvidas
 - CTA: **Diagnóstico grátis**
 

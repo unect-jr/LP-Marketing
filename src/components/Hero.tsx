@@ -5,23 +5,19 @@ import {
   Cube,
   Receipt,
   SquaresFour,
+  TrendUp,
 } from '@phosphor-icons/react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
 import { BENEFITS, GUARANTEES } from '../lib/content'
 import { CountUp, CtaButton, Reveal, SplitText } from './ui'
 
-const BARS = [38, 46, 52, 61, 58, 74, 88] // Abr a Out
+const BARS = [38, 46, 52, 61, 58, 74, 88]
 const MONTHS = ['Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out']
 const ORDERS = [
   ['OS 0412 · Manutenção preventiva', 'Em andamento', 'bg-brand-soft text-brand'],
   ['OS 0409 · Instalação', 'Entregue', 'bg-ok/15 text-ok'],
   ['OS 0405 · Reparo', 'Aguardando peça', 'bg-cta/20 text-ink'],
-]
-const ERRORS = [
-  { t: 'Metalúrgica S. · #REF!', cls: 'left-[2%] top-[-6%] -rotate-6', dy: -150 },
-  { t: 'Dist. Norte · #N/D', cls: 'right-[3%] top-[-2%] rotate-3', dy: -120 },
-  { t: 'TOTAL · #######', cls: 'right-[22%] top-[-11%] -rotate-2', dy: -190 },
 ]
 
 function Dashboard() {
@@ -53,14 +49,19 @@ function Dashboard() {
           </div>
           <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {[
-              ['Faturamento', <CountUp key="a" to={148} prefix="R$ " suffix=" mil" />, '▲ 12,4%'],
+              ['Faturamento', <CountUp key="a" to={148} prefix="R$ " suffix=" mil" />, '12,4%'],
               ['OS em aberto', <CountUp key="b" to={23} />, ''],
               ['Margem', '31,2%', ''],
             ].map(([l, v, d], i) => (
               <div key={i} className="rounded-xl bg-surface-2 p-3 sm:p-4">
                 <p className="text-[0.7rem] text-ink-2 sm:text-xs">{l as string}</p>
                 <p className="font-display text-base font-bold leading-tight sm:text-2xl">{v}</p>
-                {d && <p className="text-xs font-semibold text-ok">{d as string}</p>}
+                {d && (
+                  <p className="flex items-center gap-1 text-xs font-semibold text-ok">
+                    <TrendUp size={14} weight="bold" aria-hidden />
+                    {d as string}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -103,25 +104,20 @@ function Dashboard() {
   )
 }
 
-/** Planilha quebrada -> painel limpo, guiado pela rolagem. */
 function ProductShowcase() {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 95%', 'start 25%'] })
   const rotateX = useTransform(scrollYProgress, [0, 1], [16, 0])
   const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
-  const errOpacity = useTransform(scrollYProgress, [0.2, 0.9], [1, 0])
 
   return (
     <div
       ref={ref}
       role="img"
-      aria-label="Exemplo ilustrativo: células de planilha com erros como #REF! e #N/D dão lugar a um painel de gestão com faturamento, ordens de serviço em aberto, margem e gráfico dos últimos 7 meses."
-      className="relative mx-auto mt-24 w-full max-w-[1000px] [perspective:1400px] sm:mt-28"
+      aria-label="Exemplo ilustrativo de painel de gestão com faturamento, ordens de serviço em aberto, margem e gráfico dos últimos 7 meses."
+      className="relative mx-auto mt-16 w-full max-w-[1000px] [perspective:1400px] sm:mt-20"
     >
-      {ERRORS.map((e) => (
-        <ErrorChip key={e.t} {...e} progress={scrollYProgress} opacity={errOpacity} reduce={!!reduce} />
-      ))}
       <motion.div
         aria-hidden
         style={reduce ? undefined : { rotateX, scale, transformOrigin: '50% 100%' }}
@@ -130,33 +126,6 @@ function ProductShowcase() {
         <Dashboard />
       </motion.div>
     </div>
-  )
-}
-
-function ErrorChip({
-  t,
-  cls,
-  dy,
-  progress,
-  opacity,
-  reduce,
-}: {
-  t: string
-  cls: string
-  dy: number
-  progress: ReturnType<typeof useScroll>['scrollYProgress']
-  opacity: ReturnType<typeof useTransform<number, number>>
-  reduce: boolean
-}) {
-  const y = useTransform(progress, [0, 1], [0, dy])
-  return (
-    <motion.span
-      aria-hidden
-      style={reduce ? undefined : { y, opacity }}
-      className={`absolute z-10 rounded-lg border border-bad/40 bg-surface px-3 py-2 font-mono text-xs font-semibold text-bad shadow-lg sm:text-sm ${cls}`}
-    >
-      {t}
-    </motion.span>
   )
 }
 
@@ -176,11 +145,6 @@ export function Hero() {
       />
       <div className="container-lp">
         <div className="mx-auto flex max-w-[1100px] flex-col items-center text-center">
-          <Reveal className="mb-8 rounded-full border border-line bg-surface px-4 py-1.5 text-[0.8125rem] font-semibold text-ink-2">
-            <span className="mr-2 inline-block size-2 rounded-full bg-ok align-middle" />
-            Sistema de gestão sob medida · Cornélio Procópio e Norte do PR
-          </Reveal>
-
           <SplitText
             as="h1"
             id="hero-title"

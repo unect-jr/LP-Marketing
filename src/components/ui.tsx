@@ -3,7 +3,7 @@ import { animate, motion, useInView, useReducedMotion, type HTMLMotionProps } fr
 import { useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
 import { CTA_LABEL } from '../lib/content'
 
-export const TOTAL_SECTIONS = 7
+const TOTAL_SECTIONS = 7
 const EASE = [0.22, 1, 0.36, 1] as const
 
 export function Reveal({

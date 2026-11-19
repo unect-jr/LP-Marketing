@@ -6,7 +6,7 @@ export function Logos() {
     <section aria-label="Clientes atendidos" className="border-y border-line py-10">
       <p className="mb-6 text-center text-[0.9375rem] text-ink-2">Empresas que já confiaram na Unect Jr.</p>
       <div className="[mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-        <Marquee speed={90}>
+        <Marquee speed={90} repeat={2}>
           <ul className="flex items-center gap-6 pr-6 sm:gap-10 sm:pr-10" aria-label={CLIENTS.map((c) => c.name).join(', ')}>
             {CLIENTS.map((c) => (
               <li

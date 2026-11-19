@@ -104,7 +104,7 @@ export default function App() {
           <ExitIntent />
         </Suspense>
       )}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD).replaceAll('<', String.raw`\u003c`) }} />
     </>
   )
 }

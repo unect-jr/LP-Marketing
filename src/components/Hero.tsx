@@ -1,131 +1,30 @@
-import {
-  CheckCircle,
-  ChartLineUp,
-  ClipboardText,
-  Cube,
-  Receipt,
-  SquaresFour,
-  TrendUp,
-} from '@phosphor-icons/react'
+import { CheckCircle } from '@phosphor-icons/react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
 import { BENEFITS, GUARANTEES } from '../lib/content'
+import { InteractiveDashboard } from './dashboard/Dashboard'
 import { CountUp, CtaButton, Reveal, SplitText } from './ui'
-
-const BARS = [38, 46, 52, 61, 58, 74, 88]
-const MONTHS = ['Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out']
-const ORDERS = [
-  ['OS 0412 · Manutenção preventiva', 'Em andamento', 'bg-brand-soft text-brand'],
-  ['OS 0409 · Instalação', 'Entregue', 'bg-ok/15 text-ok'],
-  ['OS 0405 · Reparo', 'Aguardando peça', 'bg-cta/20 text-ink'],
-]
-
-function Dashboard() {
-  const reduce = useReducedMotion()
-  return (
-    <div className="overflow-hidden rounded-[22px] border border-line bg-surface shadow-[0_40px_100px_-30px_rgb(41_98_255/0.35)]">
-      <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-4 py-3">
-        <span className="size-2.5 rounded-full bg-bad/70" />
-        <span className="size-2.5 rounded-full bg-cta" />
-        <span className="size-2.5 rounded-full bg-ok" />
-        <span className="ml-3 hidden rounded-full bg-surface px-3 py-0.5 text-xs text-ink-2 sm:block">
-          painel.suaempresa.com.br
-        </span>
-      </div>
-      <div className="grid grid-cols-[56px_1fr] sm:grid-cols-[72px_1fr]">
-        <div className="flex flex-col items-center gap-5 border-r border-line py-5 text-ink-2">
-          <SquaresFour size={22} weight="fill" className="text-brand" />
-          <Receipt size={22} />
-          <ClipboardText size={22} />
-          <Cube size={22} />
-          <ChartLineUp size={22} />
-        </div>
-        <div className="p-4 sm:p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <p className="font-display text-sm font-bold sm:text-base">Painel de Gestão · Outubro</p>
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-ok">
-              <CheckCircle weight="fill" size={16} /> Atualizado
-            </span>
-          </div>
-          <div className="grid grid-cols-3 gap-2 sm:gap-4">
-            {[
-              ['Faturamento', <CountUp key="a" to={148} prefix="R$ " suffix=" mil" />, '12,4%'],
-              ['OS em aberto', <CountUp key="b" to={23} />, ''],
-              ['Margem', '31,2%', ''],
-            ].map(([l, v, d], i) => (
-              <div key={i} className="rounded-xl bg-surface-2 p-3 sm:p-4">
-                <p className="text-[0.7rem] text-ink-2 sm:text-xs">{l as string}</p>
-                <p className="font-display text-base font-bold leading-tight sm:text-2xl">{v}</p>
-                {d && (
-                  <p className="flex items-center gap-1 text-xs font-semibold text-ok">
-                    <TrendUp size={14} weight="bold" aria-hidden />
-                    {d as string}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 grid gap-4 sm:grid-cols-[1.2fr_1fr]">
-            <div>
-              <div className="flex h-32 items-end gap-2 border-b border-line">
-                {BARS.map((h, i) => (
-                  <div key={MONTHS[i]} className="flex h-full flex-1 items-end">
-                    <motion.div
-                      className={`w-full origin-bottom rounded-t-md ${i === BARS.length - 1 ? 'bg-brand' : 'bg-brand/30'}`}
-                      style={{ height: `${h}%` }}
-                      initial={reduce ? false : { scaleY: 0 }}
-                      whileInView={{ scaleY: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.8, delay: 0.2 + i * 0.07, ease: 'easeOut' }}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="mt-1.5 flex gap-2 text-[0.65rem] text-ink-2">
-                {MONTHS.map((m) => (
-                  <span key={m} className="flex-1 text-center">
-                    {m}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <ul className="hidden flex-col gap-2 sm:flex">
-              {ORDERS.map(([t, s, c]) => (
-                <li key={t} className="flex items-center justify-between gap-2 rounded-xl border border-line px-3 py-2 text-xs">
-                  <span className="truncate">{t}</span>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 font-semibold ${c}`}>{s}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 function ProductShowcase() {
   const reduce = useReducedMotion()
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 95%', 'start 25%'] })
   const rotateX = useTransform(scrollYProgress, [0, 1], [16, 0])
   const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
 
   return (
-    <div
+    <section
       ref={ref}
-      role="img"
-      aria-label="Exemplo ilustrativo de painel de gestão com faturamento, ordens de serviço em aberto, margem e gráfico dos últimos 7 meses."
+      aria-label="Exemplo interativo de painel de gestão"
       className="relative mx-auto mt-16 w-full max-w-[1000px] [perspective:1400px] sm:mt-20"
     >
-      <motion.div
-        aria-hidden
-        style={reduce ? undefined : { rotateX, scale, transformOrigin: '50% 100%' }}
-        className="relative"
-      >
-        <Dashboard />
+      <motion.div style={reduce ? undefined : { rotateX, scale, transformOrigin: '50% 100%' }} className="relative">
+        <InteractiveDashboard />
       </motion.div>
-    </div>
+      <p className="mt-5 text-center text-sm text-ink-2">
+        Exemplo com dados fictícios. Clique nos ícones do menu e nos gráficos para explorar.
+      </p>
+    </section>
   )
 }
 

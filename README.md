@@ -23,7 +23,7 @@ Landing page de conversão (Diagnóstico Operacional Gratuito via WhatsApp) da U
 
 ## Como adicionar telas a um case
 
-Coloque as imagens em `public/cases/<projeto>/` (ex.: `login.webp`) e use `shots('<projeto>', ['login', ...])` no item de `CASES`. Sem `images`, o card não mostra "Ver case" (hoje: P3 Agro).
+Coloque as imagens em `public/cases/<projeto>/` (ex.: `login.webp`) e use `shots('<projeto>', ['login', ...])` no item de `CASES`. Sem `images`, o card não mostra "Ver case".
 
 ## SEO
 

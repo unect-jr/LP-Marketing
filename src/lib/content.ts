@@ -159,7 +159,7 @@ const shots = (slug: string, names: string[]) => names.map((n) => `/cases/${slug
 
 export const CASES: CaseItem[] = [
   { type: 'Aplicativo mobile', name: 'AETA', logo: 'Nova AETA', text: 'Carteirinha digital e controle de linhas e horários para estudantes.', images: shots('aeta', ['login', 'carteirinha']) },
-  { type: 'Sistema de gestão', name: 'P3 Agro', logo: 'P3 Agro', text: 'Dados do campo, relatórios operacionais e rotinas administrativas num só lugar.' },
+  { type: 'Sistema de gestão', name: 'P3 Agro', logo: 'P3 Agro', text: 'Dados do campo, relatórios operacionais e rotinas administrativas num só lugar.', images: shots('p3-agro', ['login', 'dashboard', 'lista']) },
   { type: 'Sistema de gestão', name: 'Ficha Trans-Operatória', text: 'Fichas médicas e acompanhamento de dosagens e horários em tempo real.', images: shots('ficha-trans-operatoria', ['dashboard', 'cadastro-dados-clinicos', 'cadastro-dados-clinicos-2']) },
   {
     type: 'Sistema de gestão',

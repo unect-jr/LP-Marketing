@@ -1,5 +1,5 @@
 import { Warning } from '@phosphor-icons/react'
-import { motion, useReducedMotion } from 'motion/react'
+import { m, useReducedMotion } from 'motion/react'
 import { STOCK } from '../data'
 import { Pill } from '../parts'
 
@@ -27,7 +27,7 @@ export function StockView() {
               )}
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
-              <motion.div
+              <m.div
                 className={`h-full origin-left rounded-full ${low ? 'bg-bad' : 'bg-brand'}`}
                 style={{ width: `${(s.qty / s.max) * 100}%` }}
                 initial={reduce ? false : { scaleX: 0 }}

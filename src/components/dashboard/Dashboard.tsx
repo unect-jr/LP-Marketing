@@ -1,4 +1,4 @@
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, m, useReducedMotion } from 'motion/react'
 import { useRef, useState, type KeyboardEvent, type ReactElement } from 'react'
 import { VIEWS, type ViewId } from './data'
 import { FinanceView } from './views/FinanceView'
@@ -46,7 +46,7 @@ export function InteractiveDashboard() {
   }
 
   return (
-    <div className="overflow-hidden rounded-[22px] border border-line bg-surface shadow-[0_40px_100px_-30px_rgb(41_98_255/0.35)]">
+    <div className="overflow-hidden rounded-[22px] border border-line bg-surface">
       <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-4 py-3">
         <span className="size-2.5 rounded-full bg-bad/70" />
         <span className="size-2.5 rounded-full bg-cta" />
@@ -101,7 +101,7 @@ export function InteractiveDashboard() {
           </div>
           <div role="tabpanel" id="dash-panel" aria-labelledby={`dash-tab-${view}`} tabIndex={0}>
             <AnimatePresence mode="wait" initial={false}>
-              <motion.div
+              <m.div
                 key={view}
                 initial={reduce ? false : { opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ export function InteractiveDashboard() {
                 transition={{ duration: 0.18 }}
               >
                 <View />
-              </motion.div>
+              </m.div>
             </AnimatePresence>
           </div>
         </div>

@@ -5,10 +5,10 @@ const THEME_KEY = 'lp_theme'
 
 function applyTheme(dark: boolean) {
   const root = document.documentElement
-  root.classList.toggle('dark', dark)
+  root.classList.toggle('light', !dark)
   root.dataset.theme = dark ? 'dark' : 'light'
   const meta = document.querySelector('meta[name="theme-color"]')
-  meta?.setAttribute('content', dark ? '#080a16' : '#fafafc')
+  meta?.setAttribute('content', dark ? '#050505' : '#ffffff')
 }
 
 const subscribe = (cb: () => void) => {
@@ -16,10 +16,10 @@ const subscribe = (cb: () => void) => {
   mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   return () => mo.disconnect()
 }
-const isDark = () => document.documentElement.classList.contains('dark')
+const isDark = () => !document.documentElement.classList.contains('light')
 
 export function ThemeToggle() {
-  const dark = useSyncExternalStore(subscribe, isDark, () => false)
+  const dark = useSyncExternalStore(subscribe, isDark, () => true)
 
   const toggle = () => {
     const next = !dark

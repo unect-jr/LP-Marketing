@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { m, useReducedMotion } from 'motion/react'
 import { useState } from 'react'
 import { MONTHS, REVENUE, mil } from '../data'
 
@@ -27,7 +27,7 @@ export function RevenueChart() {
                 {mil(v)}
               </span>
             )}
-            <motion.span
+            <m.span
               className={`block w-full origin-bottom rounded-t-md transition-colors duration-200 ${
                 i === active ? 'bg-brand' : 'bg-brand/30'
               }`}

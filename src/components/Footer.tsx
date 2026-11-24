@@ -1,19 +1,22 @@
 import { ArrowRight, WhatsappLogo } from '@phosphor-icons/react'
-import { motion, useReducedMotion } from 'motion/react'
+import { m, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
+import { useCtaLabel, useUBlackLive } from '../lib/campaign'
 import { SOCIAL } from '../lib/content'
 import { trackWhatsappClick, whatsappUrl } from '../lib/lead'
 import { Logo } from './Header'
 import { Marquee } from './ui'
 
+const BANNER_LIVE = ['UBlack Unect', 'Ofertas imperdíveis']
 const BANNER = ['Sua empresa cresceu', 'Seu sistema também']
 
 export function Footer() {
+  const banner = useUBlackLive() ? BANNER_LIVE : BANNER
   return (
     <footer className="night overflow-hidden border-t border-line">
       <div aria-hidden className="select-none py-10 sm:py-14">
         <Marquee speed={120} repeat={1}>
-          {[...BANNER, ...BANNER].map((t, i) => (
+          {[...banner, ...banner].map((t, i) => (
             <span
               key={i}
               className={`flex items-center whitespace-nowrap px-6 font-display text-[clamp(3.5rem,11vw,10rem)] font-bold leading-none tracking-tighter ${
@@ -29,7 +32,7 @@ export function Footer() {
 
       <div className="container-lp grid gap-10 border-t border-line py-16 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-4">
-          <Logo forceLight />
+          <Logo forceDark />
           <p className="max-w-[28ch] text-ink-2">Transformando sonhos em realidade através da tecnologia</p>
         </div>
         <nav aria-label="Rodapé" className="flex flex-col gap-2">
@@ -81,6 +84,7 @@ export function WhatsAppFloat() {
 }
 
 export function MobileBar() {
+  const label = useCtaLabel()
   const [hide, setHide] = useState(false)
   const reduce = useReducedMotion()
 
@@ -93,7 +97,7 @@ export function MobileBar() {
   }, [])
 
   return (
-    <motion.div
+    <m.div
       className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-line bg-surface/90 px-4 pt-3 backdrop-blur-xl lg:hidden"
       style={{ paddingBottom: 'calc(12px + env(safe-area-inset-bottom))' }}
       animate={{ y: hide ? '110%' : 0 }}
@@ -102,9 +106,9 @@ export function MobileBar() {
     >
       <a
         href="#diagnostico"
-        className="inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-cta px-4 font-display font-bold text-cta-ink"
+        className="inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-cta px-3 font-display text-[0.9375rem] font-bold text-cta-ink"
       >
-        Diagnóstico grátis <ArrowRight weight="bold" size={18} aria-hidden />
+        {label} <ArrowRight weight="bold" size={18} aria-hidden />
       </a>
       <a
         href={whatsappUrl()}
@@ -116,6 +120,6 @@ export function MobileBar() {
       >
         <WhatsappLogo weight="fill" size={28} aria-hidden />
       </a>
-    </motion.div>
+    </m.div>
   )
 }

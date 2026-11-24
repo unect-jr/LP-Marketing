@@ -1,9 +1,9 @@
 import { ArrowRight } from '@phosphor-icons/react'
-import { animate, motion, useInView, useReducedMotion, type HTMLMotionProps } from 'motion/react'
+import { animate, m, useInView, useReducedMotion, type HTMLMotionProps } from 'motion/react'
 import { useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
-import { CTA_LABEL } from '../lib/content'
+import { useCtaLabel } from '../lib/campaign'
+import { SECTIONS, type SectionKey } from '../lib/content'
 
-const TOTAL_SECTIONS = 7
 const EASE = [0.22, 1, 0.36, 1] as const
 
 export function Reveal({
@@ -14,7 +14,7 @@ export function Reveal({
 }: { children: ReactNode; delay?: number; className?: string } & HTMLMotionProps<'div'>) {
   const reduce = useReducedMotion()
   return (
-    <motion.div
+    <m.div
       className={className}
       initial={reduce ? false : { opacity: 0.4, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +23,7 @@ export function Reveal({
       {...rest}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -54,14 +54,14 @@ export function SplitText({
       {words.map((w, i) => (
         <span key={i}>
           <span className="inline-block overflow-hidden pb-[0.14em] align-bottom [margin-bottom:-0.14em]">
-            <motion.span
+            <m.span
               className={`inline-block ${accentFrom !== undefined && i >= accentFrom ? 'text-brand' : ''}`}
               initial={reduce ? false : { y: '112%' }}
               {...anim}
               transition={{ duration: 0.9, ease: EASE, delay: delay + i * 0.05 }}
             >
               {w}
-            </motion.span>
+            </m.span>
           </span>
           {i < words.length - 1 ? ' ' : ''}
         </span>
@@ -72,14 +72,14 @@ export function SplitText({
 
 export function SectionHead({
   id,
-  n,
+  section,
   label,
   title,
   lead,
   className = '',
 }: {
   id: string
-  n: number
+  section: SectionKey
   label: string
   title: string
   lead?: string
@@ -89,7 +89,7 @@ export function SectionHead({
     <div className={`flex flex-col gap-6 ${className}`}>
       <Reveal className="flex items-center gap-4 text-[0.8125rem] font-semibold uppercase tracking-[0.12em] text-ink-2">
         <span className="font-display text-brand tabular-nums">
-          {String(n).padStart(2, '0')} <span className="text-ink-2">/ {String(TOTAL_SECTIONS).padStart(2, '0')}</span>
+          {String(SECTIONS.indexOf(section) + 1).padStart(2, '0')} <span className="text-ink-2">/ {String(SECTIONS.length).padStart(2, '0')}</span>
         </span>
         <span aria-hidden className="h-px w-10 bg-line" />
         {label}
@@ -115,7 +115,7 @@ export function Chip({ children, className = '' }: { children: ReactNode; classN
 }
 
 export function CtaButton({
-  label = CTA_LABEL,
+  label,
   className = '',
   block = true,
   small = false,
@@ -125,6 +125,7 @@ export function CtaButton({
   block?: boolean
   small?: boolean
 }) {
+  const defaultLabel = useCtaLabel()
   return (
     <a
       href="#diagnostico"
@@ -132,9 +133,9 @@ export function CtaButton({
         small ? 'min-h-12 py-1.5 pl-5 pr-1.5 text-sm' : 'min-h-[60px] py-2 pl-8 pr-2 text-base'
       } ${block ? 'w-full sm:w-auto' : ''} ${className}`}
     >
-      {label}
+      {label ?? defaultLabel}
       <span
-        className={`grid shrink-0 place-items-center rounded-full bg-cta-ink text-cta transition-transform duration-300 group-hover:translate-x-1 ${
+        className={`grid shrink-0 place-items-center rounded-full bg-white text-cta transition-transform duration-300 group-hover:translate-x-1 ${
           small ? 'size-9' : 'size-11'
         }`}
       >

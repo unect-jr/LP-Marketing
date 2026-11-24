@@ -7,7 +7,7 @@ export function Faq() {
     <section id="duvidas" aria-labelledby="faq-title" className="section-y bg-surface-2">
       <div className="container-lp grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
-          <SectionHead id="faq-title" n={6} label="Dúvidas" title="Perguntas frequentes" />
+          <SectionHead id="faq-title" section="duvidas" label="Dúvidas" title="Perguntas frequentes" />
         </div>
         <Reveal>
           <div className="border-b border-line">

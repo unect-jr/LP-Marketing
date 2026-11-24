@@ -43,7 +43,7 @@ export function FinanceView() {
                 <span className={`font-semibold ${e.kind === 'receber' ? 'text-ok' : 'text-bad'}`}>
                   {e.kind === 'receber' ? '+' : '-'} {brl(e.value)}
                 </span>
-                <Pill className={e.status === 'pago' ? 'bg-ok/15 text-ok' : 'bg-cta/20 text-ink'}>
+                <Pill className={e.status === 'pago' ? 'bg-ok/15 text-ok' : 'bg-ink/10 text-ink'}>
                   {e.status === 'pago' ? 'Pago' : 'Em aberto'}
                 </Pill>
               </span>

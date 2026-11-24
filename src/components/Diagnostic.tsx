@@ -1,13 +1,15 @@
+import { useUBlackLive } from '../lib/campaign'
 import { DELIVERABLES } from '../lib/content'
 import { LeadForm } from './LeadForm'
 import { Reveal, SectionHead } from './ui'
 
 export function Diagnostic() {
+  const live = useUBlackLive()
   return (
     <section id="diagnostico" aria-labelledby="diag-title" className="night section-y">
       <div className="container-lp grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal className="lg:order-2">
-          <div className="rounded-[28px] border border-line bg-surface p-6 sm:p-10">
+          <div className="rounded-[28px] border border-cta/40 bg-surface p-6 sm:p-10">
             <LeadForm />
           </div>
         </Reveal>
@@ -15,10 +17,14 @@ export function Diagnostic() {
         <div className="flex flex-col gap-8 lg:order-1 lg:pt-4">
           <SectionHead
             id="diag-title"
-            n={7}
-            label="Diagnóstico gratuito"
-            title="Descubra quanto as planilhas custam à sua empresa"
-            lead="Em uma reunião online de 30 a 45 minutos mapeamos sua operação. Você sai com um plano claro, mesmo que decida não contratar."
+            section="diagnostico"
+            label={live ? 'UBlack · Diagnóstico gratuito' : 'Diagnóstico gratuito'}
+            title={live ? 'Escolha sua oferta UBlack e comece agora' : 'Descubra quanto as planilhas custam à sua empresa'}
+            lead={
+              live
+                ? 'Selecione a oferta, preencha em menos de 1 minuto e a conversa segue no WhatsApp. Em uma reunião online de 30 a 45 minutos mapeamos sua operação, mesmo que você decida não contratar.'
+                : 'Em uma reunião online de 30 a 45 minutos mapeamos sua operação. Você sai com um plano claro, mesmo que decida não contratar.'
+            }
           />
           <Reveal>
             <p className="mb-4 font-display font-bold">O que você recebe</p>

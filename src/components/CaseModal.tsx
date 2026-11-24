@@ -1,16 +1,16 @@
 import { ArrowLeft, ArrowRight, X } from '@phosphor-icons/react'
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
+import { useCtaLabel } from '../lib/campaign'
 import type { CaseItem } from '../lib/content'
 import { Chip } from './ui'
 
 export function CaseModal({ item, onClose }: { item: CaseItem | null; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null)
   const reduce = useReducedMotion()
-  const [pos, setPos] = useState({ name: '', i: 0 })
+  const ctaLabel = useCtaLabel()
+  const [i, setI] = useState(0)
   const c = item
-  const i = pos.name === c?.name ? pos.i : 0
-  const setI = (n: number) => setPos({ name: c?.name ?? '', i: n })
 
   useEffect(() => {
     const d = ref.current
@@ -35,7 +35,7 @@ export function CaseModal({ item, onClose }: { item: CaseItem | null; onClose: (
         if (e.key === 'ArrowRight' && !atEnd) setI(i + 1)
         if (e.key === 'ArrowLeft' && !atStart) setI(i - 1)
       }}
-      className="m-auto w-[min(920px,calc(100vw-24px))] max-h-[calc(100dvh-24px)] overflow-hidden rounded-[28px] bg-surface p-0 text-ink backdrop:bg-[#05071a]/75 backdrop:backdrop-blur-sm open:animate-[exit-in_.35s_cubic-bezier(.22,1,.36,1)]"
+      className="m-auto w-[min(920px,calc(100vw-24px))] max-h-[calc(100dvh-24px)] overflow-hidden rounded-[28px] bg-surface p-0 text-ink backdrop:bg-black/80 backdrop:backdrop-blur-sm open:animate-[exit-in_.35s_cubic-bezier(.22,1,.36,1)]"
     >
       {c && (
         <div className="relative max-h-[calc(100dvh-24px)] overflow-y-auto p-5 [scrollbar-width:none] sm:p-8 [&::-webkit-scrollbar]:hidden">
@@ -121,7 +121,7 @@ export function CaseModal({ item, onClose }: { item: CaseItem | null; onClose: (
             onClick={onClose}
             className="mt-6 inline-flex min-h-[52px] items-center justify-center rounded-full bg-cta px-8 font-display font-bold text-cta-ink transition hover:bg-cta-hover active:scale-[0.98]"
           >
-            Quero um sistema assim
+            {ctaLabel}
           </a>
         </div>
       )}

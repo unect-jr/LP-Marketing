@@ -27,7 +27,7 @@ export function Compare() {
       <div className="container-lp flex flex-col gap-16">
         <SectionHead
           id="comparativo-title"
-          n={1}
+          section="comparativo"
           label="Comparativo"
           title="Planilha, ERP genérico ou sob medida?"
           lead="Toda empresa em crescimento chega a esse ponto. Veja o que cada opção entrega na prática."

@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'motion/react'
+import { m, useReducedMotion } from 'motion/react'
 import { useState } from 'react'
 import { DRE, margin, mil, type Period } from '../data'
 import { Segmented } from '../parts'
@@ -16,7 +16,7 @@ export function ReportsView() {
   const rows = [
     { label: 'Receita', value: receita, bar: 'bg-brand' },
     { label: 'Custos', value: custos, bar: 'bg-bad/70' },
-    { label: 'Despesas', value: despesas, bar: 'bg-cta' },
+    { label: 'Despesas', value: despesas, bar: 'bg-ink-2' },
     { label: 'Lucro', value: lucro, bar: 'bg-ok' },
   ]
 
@@ -31,7 +31,7 @@ export function ReportsView() {
               <span className="tabular-nums text-ink-2">{mil(r.value)}</span>
             </div>
             <div className="h-2.5 overflow-hidden rounded-full bg-surface-2">
-              <motion.div
+              <m.div
                 className={`h-full rounded-full ${r.bar}`}
                 initial={reduce ? false : { width: 0 }}
                 animate={{ width: `${(r.value / receita) * 100}%` }}

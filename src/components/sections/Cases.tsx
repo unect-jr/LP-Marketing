@@ -1,27 +1,25 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import { useReducedMotion } from 'motion/react'
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useState, useSyncExternalStore } from 'react'
 import { CASES, CLIENTS, type CaseItem } from '../../lib/content'
 import { Chip, SectionHead } from '../ui'
 
 const CaseModal = lazy(() => import('../CaseModal').then((m) => ({ default: m.CaseModal })))
 
-function usePerPage() {
-  const [n, setN] = useState(3)
-  useEffect(() => {
-    const lg = window.matchMedia('(min-width: 1024px)')
-    const md = window.matchMedia('(min-width: 640px)')
-    const update = () => setN(lg.matches ? 3 : md.matches ? 2 : 1)
-    update()
-    lg.addEventListener('change', update)
-    md.addEventListener('change', update)
-    return () => {
-      lg.removeEventListener('change', update)
-      md.removeEventListener('change', update)
-    }
-  }, [])
-  return n
+const QUERIES = ['(min-width: 1024px)', '(min-width: 640px)']
+
+function subscribeBreakpoints(cb: () => void) {
+  const lists = QUERIES.map((q) => window.matchMedia(q))
+  lists.forEach((l) => l.addEventListener('change', cb))
+  return () => lists.forEach((l) => l.removeEventListener('change', cb))
 }
+
+function perPageNow() {
+  const [lg, md] = QUERIES.map((q) => window.matchMedia(q).matches)
+  return lg ? 3 : md ? 2 : 1
+}
+
+const usePerPage = () => useSyncExternalStore(subscribeBreakpoints, perPageNow, () => 3)
 
 export function Cases() {
   const reduce = useReducedMotion()
@@ -41,7 +39,7 @@ export function Cases() {
     <section id="cases" aria-labelledby="cases-title" className="section-y overflow-hidden">
       <div className="container-lp flex flex-col gap-12">
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <SectionHead id="cases-title" n={4} label="Cases" title="Projetos que já estão em uso" />
+          <SectionHead id="cases-title" section="cases" label="Cases" title="Projetos que já estão em uso" />
           <div className="flex items-center gap-3">
             {([-1, 1] as const).map((d) => (
               <button
@@ -112,7 +110,7 @@ export function Cases() {
       </div>
       {modalLoaded && (
         <Suspense fallback={null}>
-          <CaseModal item={open} onClose={() => setOpen(null)} />
+          <CaseModal key={open?.name ?? 'closed'} item={open} onClose={() => setOpen(null)} />
         </Suspense>
       )}
     </section>

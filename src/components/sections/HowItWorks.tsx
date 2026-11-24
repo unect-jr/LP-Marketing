@@ -8,7 +8,7 @@ export function HowItWorks() {
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionHead
             id="como-title"
-            n={3}
+            section="como-funciona"
             label="Como funciona"
             title="Do diagnóstico ao sistema em 4 passos"
             lead="Você valida cada etapa e sabe o que vai receber antes de investir."
@@ -26,7 +26,7 @@ export function HowItWorks() {
               className="sticky"
               style={{ top: `calc(104px + ${i * 22}px)` }}
             >
-              <div className="rounded-3xl border border-line bg-surface p-7 shadow-[0_20px_50px_-30px_rgb(10_13_31/0.35)] sm:p-10">
+              <div className="rounded-3xl border border-line bg-surface p-7 shadow-[0_20px_50px_-30px_rgb(0_0_0/0.6)] sm:p-10">
                 <div className="flex items-start justify-between gap-4">
                   <span className="font-display text-7xl font-bold leading-none text-brand sm:text-8xl">
                     {String(i + 1).padStart(2, '0')}

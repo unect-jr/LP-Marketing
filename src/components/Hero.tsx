@@ -1,13 +1,23 @@
 import { CheckCircle } from '@phosphor-icons/react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { useRef } from 'react'
-import { BENEFITS, GUARANTEES } from '../lib/content'
-import { InteractiveDashboard } from './dashboard/Dashboard'
+import { m, useInView, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { Suspense, lazy, useRef } from 'react'
+import { useUBlackLive } from '../lib/campaign'
+import { BENEFITS, GUARANTEES, UBLACK_NOTE } from '../lib/content'
+import { Offers } from './Offers'
 import { CountUp, CtaButton, Reveal, SplitText } from './ui'
+
+const InteractiveDashboard = lazy(() =>
+  import('./dashboard/Dashboard').then((mod) => ({ default: mod.InteractiveDashboard })),
+)
+
+function DashboardSkeleton() {
+  return <div aria-hidden className="h-[450px] rounded-[22px] sm:h-[460px] border border-line bg-surface" />
+}
 
 function ProductShowcase() {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLElement>(null)
+  const near = useInView(ref, { once: true, margin: '600px 0px' })
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 95%', 'start 25%'] })
   const rotateX = useTransform(scrollYProgress, [0, 1], [16, 0])
   const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
@@ -18,9 +28,15 @@ function ProductShowcase() {
       aria-label="Exemplo interativo de painel de gestão"
       className="relative mx-auto mt-16 w-full max-w-[1000px] [perspective:1400px] sm:mt-20"
     >
-      <motion.div style={reduce ? undefined : { rotateX, scale, transformOrigin: '50% 100%' }} className="relative">
-        <InteractiveDashboard />
-      </motion.div>
+      <m.div style={reduce ? undefined : { rotateX, scale, transformOrigin: '50% 100%' }} className="relative">
+        {near ? (
+          <Suspense fallback={<DashboardSkeleton />}>
+            <InteractiveDashboard />
+          </Suspense>
+        ) : (
+          <DashboardSkeleton />
+        )}
+      </m.div>
       <p className="mt-5 text-center text-sm text-ink-2">
         Exemplo com dados fictícios. Clique nos ícones do menu e nos gráficos para explorar.
       </p>
@@ -36,14 +52,11 @@ const STATS: { to: number; prefix?: string; suffix?: string; label: string }[] =
 ]
 
 export function Hero() {
+  const live = useUBlackLive()
   return (
-    <section aria-labelledby="hero-title" className="relative overflow-hidden pt-36 sm:pt-44">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[620px] w-[1100px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--brand)_20%,transparent),transparent_65%)]"
-      />
+    <section aria-labelledby="hero-title" className="relative overflow-hidden pt-[calc(var(--ub-h)+7rem)] sm:pt-[calc(var(--ub-h)+7.5rem)]">
       <div className="container-lp">
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center text-center">
+        <div className="mx-auto flex max-w-[1240px] flex-col items-center text-center">
           <SplitText
             as="h1"
             id="hero-title"
@@ -51,16 +64,18 @@ export function Hero() {
             delay={0.2}
             accentFrom={3}
             text="Sua empresa cresceu. Suas planilhas não acompanharam."
-            className="t-display text-ink"
+            className="t-hero text-ink"
           />
 
-          <Reveal delay={0.7} className="mt-8 flex flex-col items-center gap-8">
+          <Reveal delay={0.7} className="mt-6 flex w-full flex-col items-center gap-8">
             <p className="t-lead max-w-[58ch] text-ink-2">
               Financeiro, estoque, ordens de serviço e DRE em um só sistema web, feito para a rotina da sua equipe e com
               investimento de Empresa Júnior.
             </p>
+            {live && <Offers />}
             <div className="flex w-full flex-col items-center gap-4">
               <CtaButton />
+              {live && <p className="text-[0.9375rem] font-semibold text-brand">{UBLACK_NOTE}</p>}
               <ul className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-[0.9375rem] text-ink-2">
                 {GUARANTEES.map((g) => (
                   <li key={g} className="flex items-center gap-1.5">

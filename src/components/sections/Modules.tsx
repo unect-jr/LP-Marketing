@@ -17,7 +17,7 @@ export function Modules() {
       <div className="container-lp flex flex-col gap-16">
         <SectionHead
           id="modulos-title"
-          n={2}
+          section="modulos"
           label="Módulos"
           title="Comece pelo gargalo que mais custa caro"
           lead="Cada módulo resolve um problema da operação. Você escolhe por onde começar e o sistema cresce conforme a empresa pede."

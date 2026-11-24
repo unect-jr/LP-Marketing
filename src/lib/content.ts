@@ -1,5 +1,8 @@
 export const WHATSAPP_NUMBER = '554388696363'
 
+export const SECTIONS = ['comparativo', 'modulos', 'como-funciona', 'cases', 'depoimentos', 'duvidas', 'diagnostico'] as const
+export type SectionKey = (typeof SECTIONS)[number]
+
 export const NAV = [
   { href: '#comparativo', label: 'Comparativo' },
   { href: '#modulos', label: 'Módulos' },
@@ -8,9 +11,22 @@ export const NAV = [
   { href: '#duvidas', label: 'Dúvidas' },
 ] as const
 
-export const CTA_LABEL = 'Quero meu diagnóstico gratuito'
+export const CTA_LABEL = 'Quero aproveitar a UBlack'
+export const CTA_LABEL_DEFAULT = 'Quero meu diagnóstico gratuito'
+
+export const UBLACK_ENDS_AT = '2026-11-30T23:59:59-03:00'
+
+export type OfferIcon = 'globe' | 'cube' | 'wallet'
+
+export const OFFERS: { id: string; icon: OfferIcon; tag: string; title: string; desc: string }[] = [
+  { id: 'site-hospedagem', icon: 'globe', tag: 'Oferta 01', title: 'Site + 1 ano de hospedagem', desc: 'Contrate um site e ganhe um ano de hospedagem.' },
+  { id: 'sistema-site', icon: 'cube', tag: 'Oferta 02', title: 'Sistema + site de brinde', desc: 'Feche um sistema e ganhe um site.' },
+  { id: 'sem-entrada', icon: 'wallet', tag: 'Oferta 03', title: 'Projeto sem entrada', desc: 'Contrate seu projeto sem pagar entrada.' },
+]
 
 export const GUARANTEES = ['Reunião 100% online', 'Sem compromisso', 'Proposta em até 24h']
+
+export const UBLACK_NOTE = 'Ofertas por tempo limitado, enquanto o contador estiver ativo.'
 
 export const BENEFITS = [
   'Relatórios automáticos e confiáveis para decidir com segurança',
@@ -180,6 +196,7 @@ export const TESTIMONIALS: { quote: string; name: string; project: string; avata
 ]
 
 export const FAQ = [
+  { q: 'Como funcionam as ofertas da UBlack?', a: 'Você escolhe uma das três ofertas, fala com a gente pelo WhatsApp e recebe a proposta por escrito com todas as condições. As ofertas valem por tempo limitado, enquanto o contador da página estiver ativo.' },
   { q: 'Quanto custa um sistema sob medida?', a: 'Depende dos módulos e do tamanho da operação. Depois do diagnóstico você recebe, em até 24h, uma proposta por escrito com escopo, prazo e investimento. Não há mensalidade por usuário nem por módulo.' },
   { q: 'O diagnóstico é mesmo gratuito?', a: 'Sim. É uma reunião online de 30 a 45 minutos e não obriga a contratar. Você sai com um mapa dos gargalos mesmo que decida não seguir.' },
   { q: 'Vocês atendem fora de Cornélio Procópio?', a: 'Sim. Todo o atendimento é online, por videochamada e WhatsApp, para Cornélio Procópio e todo o Norte do Paraná.' },

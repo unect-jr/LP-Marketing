@@ -1,53 +1,58 @@
 @import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
 
 :root {
-  --bg: #fafafc;
-  --surface: #ffffff;
-  --surface-2: #f0f1f7;
-  --ink: #0a0d1f;
-  --ink-2: #5a6078;
-  --line: #e4e6ef;
-  --brand: #2962ff;
-  --brand-soft: #e8eeff;
-  --cta: #ffb800;
-  --cta-hover: #ffc933;
-  --cta-ink: #14161f;
-  --ok: #007a52;
-  --bad: #c8331b;
-  --wa: #25d366;
-  --focus: #8a3ffc;
-  color-scheme: light;
-}
-
-:root.dark {
-  --bg: #080a16;
-  --surface: #11152b;
-  --surface-2: #181d38;
-  --ink: #f2f4fc;
-  --ink-2: #a3abc8;
-  --line: #262c4f;
-  --brand: #7396ff;
-  --brand-soft: #1b2559;
+  --bg: #050505;
+  --surface: #0f0f11;
+  --surface-2: #19191c;
+  --ink: #ffffff;
+  --ink-2: #a9a9b3;
+  --line: #2b2b30;
+  --brand: #ff3342;
+  --brand-soft: #2b0b0f;
+  --cta: #e8111f;
+  --cta-hover: #ff2d3b;
+  --cta-ink: #ffffff;
+  --cta-deep: #7a0610;
+  --red-rgb: 255 36 52;
   --ok: #3ccf91;
-  --bad: #ff7a63;
-  --focus: #b58bff;
+  --bad: #ff8a8a;
+  --wa: #25d366;
+  --focus: #ffffff;
   color-scheme: dark;
 }
 
+:root.light {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f3f3f5;
+  --ink: #0b0b0d;
+  --ink-2: #5c5c66;
+  --line: #e3e3e8;
+  --brand: #d10f1e;
+  --brand-soft: #fdecee;
+  --cta-hover: #c70d1a;
+  --ok: #007a52;
+  --bad: #c8331b;
+  --focus: #0b0b0d;
+  color-scheme: light;
+}
+
 .night {
-  --bg: #0b0e20;
-  --surface: #131833;
-  --surface-2: #1a2040;
-  --ink: #f2f4fc;
-  --ink-2: #a3abc8;
-  --line: #262c4f;
-  --brand: #7396ff;
-  --brand-soft: #1b2559;
+  --bg: #0b0b0d;
+  --surface: #141417;
+  --surface-2: #1d1d21;
+  --ink: #ffffff;
+  --ink-2: #a9a9b3;
+  --line: #2b2b30;
+  --brand: #ff3342;
+  --brand-soft: #2b0b0f;
+  --cta-hover: #ff2d3b;
   --ok: #3ccf91;
-  --bad: #ff7a63;
-  --focus: #b58bff;
+  --bad: #ff8a8a;
+  --focus: #ffffff;
+  color-scheme: dark;
   background: var(--bg);
   color: var(--ink);
 }
@@ -64,6 +69,7 @@
   --color-cta: var(--cta);
   --color-cta-hover: var(--cta-hover);
   --color-cta-ink: var(--cta-ink);
+  --color-cta-deep: var(--cta-deep);
   --color-ok: var(--ok);
   --color-bad: var(--bad);
   --color-wa: var(--wa);
@@ -130,6 +136,11 @@ h3 {
   line-height: 1.01;
   font-weight: 700;
 }
+@utility t-hero {
+  font-size: clamp(2.4rem, 1rem + 4.2vw, 4.4rem);
+  line-height: 1.02;
+  font-weight: 700;
+}
 @utility t-h2 {
   font-size: clamp(2rem, 1.1rem + 3.6vw, 4.2rem);
   line-height: 1.04;
@@ -178,6 +189,23 @@ h3 {
 }
 .wa-pulse {
   animation: wa-pulse 2s ease-out 3;
+}
+
+@keyframes ub-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+.ub-blink {
+  animation: ub-blink 1.4s ease-in-out infinite;
+}
+
+.ub-card {
+  --mx: 50%;
+  --my: 0%;
+  background:
+    radial-gradient(420px circle at var(--mx) var(--my), rgb(var(--red-rgb) / 0.1), transparent 60%),
+    var(--surface);
 }
 
 @media (prefers-reduced-motion: reduce) {

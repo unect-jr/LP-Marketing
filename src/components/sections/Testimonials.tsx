@@ -1,5 +1,5 @@
 import { Quotes } from '@phosphor-icons/react'
-import { motion } from 'motion/react'
+import { m } from 'motion/react'
 import { TESTIMONIALS } from '../../lib/content'
 import { Reveal, SectionHead } from '../ui'
 
@@ -17,11 +17,11 @@ export function Testimonials() {
   return (
     <section aria-labelledby="dep-title" className="section-y border-t border-line">
       <div className="container-lp flex flex-col gap-14">
-        <SectionHead id="dep-title" n={5} label="Depoimentos" title="O que dizem os clientes" />
+        <SectionHead id="dep-title" section="depoimentos" label="Depoimentos" title="O que dizem os clientes" />
         <div className="grid gap-5 lg:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.1}>
-              <motion.figure
+              <m.figure
                 whileHover={{ y: -6 }}
                 className="flex h-full flex-col gap-8 rounded-3xl bg-surface-2 p-8"
               >
@@ -40,7 +40,7 @@ export function Testimonials() {
                     <span className="block text-[0.9375rem] text-ink-2">{t.project}</span>
                   </span>
                 </figcaption>
-              </motion.figure>
+              </m.figure>
             </Reveal>
           ))}
         </div>

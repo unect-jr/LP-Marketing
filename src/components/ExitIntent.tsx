@@ -6,6 +6,7 @@ const SHOWN_KEY = 'lp_exit_shown'
 const MIN_TIME_ON_PAGE = 8000
 
 const BULLETS = [
+  'Site com 1 ano de hospedagem, sistema com site de brinde ou projeto sem entrada',
   'Mapa dos gargalos em uma reunião online de 30 a 45 minutos',
   'Proposta e arquitetura do sistema por escrito, em até 24h',
   'Sem compromisso e sem mensalidade por usuário',
@@ -61,25 +62,25 @@ export function ExitIntent() {
       onClick={(e) => {
         if (e.target === ref.current) setOpen(false)
       }}
-      className="m-auto w-[min(940px,calc(100vw-24px))] max-h-[calc(100dvh-24px)] overflow-hidden rounded-[28px] bg-transparent p-0 text-ink backdrop:bg-[#05071a]/75 backdrop:backdrop-blur-sm open:animate-[exit-in_.35s_cubic-bezier(.22,1,.36,1)]"
+      className="m-auto w-[min(940px,calc(100vw-24px))] max-h-[calc(100dvh-24px)] overflow-hidden rounded-[28px] bg-transparent p-0 text-ink backdrop:bg-black/80 backdrop:backdrop-blur-sm open:animate-[exit-in_.35s_cubic-bezier(.22,1,.36,1)]"
     >
       {open && (
         <div className="grid max-h-[calc(100dvh-24px)] overflow-y-auto lg:grid-cols-[0.95fr_1.05fr]">
           <div className="night hidden flex-col justify-center gap-6 p-10 lg:flex">
-            <span className="w-fit rounded-full border border-cta/50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-cta">
-              Diagnóstico online gratuito
+            <span className="w-fit rounded-full border border-cta/50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand">
+              UBlack · ofertas por tempo limitado
             </span>
             <h2 id="exit-title" className="font-display text-4xl font-bold leading-[1.08] tracking-tight">
-              Antes de decidir seu projeto, fale com quem entende da sua operação.
+              Antes de ir embora, garanta sua oferta UBlack.
             </h2>
             <p className="text-ink-2">
-              Na Unect Jr., mapeamos seus gargalos, planilhas e processos para desenhar uma solução sob medida para a sua
-              empresa, sem letras miúdas.
+              As ofertas da UBlack valem só enquanto o contador estiver ativo. Escolha a sua e fale com a Unect Jr. pelo
+              WhatsApp, sem compromisso.
             </p>
             <ul className="flex flex-col gap-3">
               {BULLETS.map((b) => (
                 <li key={b} className="flex items-start gap-3 font-semibold">
-                  <Check weight="bold" size={18} className="mt-1 shrink-0 text-cta" aria-hidden />
+                  <Check weight="bold" size={18} className="mt-1 shrink-0 text-brand" aria-hidden />
                   {b}
                 </li>
               ))}
@@ -96,11 +97,11 @@ export function ExitIntent() {
               <X size={18} weight="bold" />
             </button>
             <p className="mb-2 pr-12 font-display text-sm font-bold text-brand lg:hidden" id="exit-title-sm">
-              Diagnóstico online gratuito
+              UBlack · ofertas por tempo limitado
             </p>
             <LeadForm
               compact
-              title="Garanta sua reunião de diagnóstico gratuita agora"
+              title="Garanta sua oferta UBlack agora"
               subtitle="Leva menos de 1 minuto. A conversa continua no WhatsApp."
               onSent={() => safeSet(SHOWN_KEY)}
             />

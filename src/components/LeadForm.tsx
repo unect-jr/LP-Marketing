@@ -1,7 +1,9 @@
 import { ArrowRight, CheckCircle, WarningCircle, WhatsappLogo } from '@phosphor-icons/react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, m, useReducedMotion } from 'motion/react'
 import { useId, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react'
-import { CHALLENGES, SEGMENTS, TEAM_SIZES } from '../lib/content'
+import { useCtaLabel, useUBlackLive } from '../lib/campaign'
+import { CHALLENGES, OFFERS, SEGMENTS, TEAM_SIZES } from '../lib/content'
+import { selectOffer, useSelectedOffer } from '../lib/offer'
 import {
   EMPTY_LEAD,
   buildMessage,
@@ -54,8 +56,8 @@ function Field({
 }
 
 export function LeadForm({
-  title = 'Peça seu diagnóstico',
-  subtitle = 'Leva menos de 1 minuto. A conversa continua no WhatsApp.',
+  title,
+  subtitle,
   compact = false,
   onSent,
 }: {
@@ -71,6 +73,15 @@ export function LeadForm({
   const [sentUrl, setSentUrl] = useState<string | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const [utms] = useState(captureUtms)
+  const oferta = useSelectedOffer()
+  const live = useUBlackLive()
+  const ctaLabel = useCtaLabel()
+  const heading = title ?? (live ? 'Garanta sua oferta UBlack' : 'Peça seu diagnóstico')
+  const sub =
+    subtitle ??
+    (live
+      ? 'Leva menos de 1 minuto. A conversa continua no WhatsApp, com a oferta que você escolheu.'
+      : 'Leva menos de 1 minuto. A conversa continua no WhatsApp.')
 
   const id = (n: keyof LeadValues) => `${uid}-${n}`
   const aria = (n: keyof LeadValues) => ({
@@ -97,9 +108,9 @@ export function LeadForm({
       formRef.current?.querySelector<HTMLElement>(`[name="${firstBad}"]`)?.focus()
       return
     }
-    const url = whatsappUrl(buildMessage(values, utms))
+    const url = whatsappUrl(buildMessage(values, utms, live ? oferta : null))
     window.open(url, '_blank', 'noopener,noreferrer')
-    trackLead(values)
+    trackLead(values, live ? oferta : '')
     try {
       sessionStorage.setItem(LEAD_SENT_KEY, '1')
     } catch {
@@ -111,7 +122,7 @@ export function LeadForm({
   return (
     <AnimatePresence mode="wait" initial={false}>
       {sentUrl ? (
-        <motion.div
+        <m.div
           key="ok"
           initial={reduce ? false : { opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -130,9 +141,9 @@ export function LeadForm({
           >
             <WhatsappLogo weight="fill" size={22} aria-hidden /> Abrir o WhatsApp
           </a>
-        </motion.div>
+        </m.div>
       ) : (
-        <motion.form
+        <m.form
           key="form"
           ref={formRef}
           onSubmit={onSubmit}
@@ -141,9 +152,39 @@ export function LeadForm({
           aria-labelledby={`${uid}-ft`}
         >
           <h3 id={`${uid}-ft`} className={`font-display font-bold ${compact ? 'text-2xl' : 'text-3xl'}`}>
-            {title}
+            {heading}
           </h3>
-          <p className="mb-7 mt-2 text-ink-2">{subtitle}</p>
+          <p className="mb-7 mt-2 text-ink-2">{sub}</p>
+
+          {live && (
+          <fieldset className="mb-6">
+            <legend className="mb-2 font-semibold text-ink">
+              Oferta UBlack <span className="font-normal text-ink-2">(opcional)</span>
+            </legend>
+            <div className="grid gap-2">
+              {OFFERS.map((o) => (
+                <label
+                  key={o.id}
+                  className={`flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border-[1.5px] px-3.5 py-2.5 transition-[border-color,background-color,box-shadow] has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus ${
+                    oferta === o.id
+                      ? 'border-cta bg-cta/10'
+                      : 'border-line bg-surface-2 hover:border-cta/60'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name={`${uid}-oferta`}
+                    value={o.id}
+                    checked={oferta === o.id}
+                    onChange={() => selectOffer(o.id)}
+                    className="size-4 shrink-0 accent-cta"
+                  />
+                  <span className="font-semibold leading-snug">{o.title}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          )}
 
           <div className="grid gap-x-4 gap-y-5 sm:grid-cols-2">
             <Field id={id('nome')} label="Nome" error={errors.nome} className="sm:col-span-2">
@@ -189,8 +230,8 @@ export function LeadForm({
             type="submit"
             className="group mt-7 inline-flex min-h-[60px] w-full items-center justify-between gap-2 rounded-full bg-cta py-2 pl-8 pr-2 font-display font-bold text-cta-ink transition-[transform,background-color] duration-200 hover:bg-cta-hover active:scale-[0.98]"
           >
-            Enviar e abrir o WhatsApp
-            <span className="grid size-11 place-items-center rounded-full bg-cta-ink text-cta transition-transform group-hover:translate-x-1">
+            {ctaLabel}
+            <span className="grid size-11 place-items-center rounded-full bg-white text-cta transition-transform group-hover:translate-x-1">
               <ArrowRight weight="bold" size={20} aria-hidden />
             </span>
           </button>
@@ -207,7 +248,7 @@ export function LeadForm({
               Chame no WhatsApp
             </a>
           </p>
-        </motion.form>
+        </m.form>
       )}
     </AnimatePresence>
   )

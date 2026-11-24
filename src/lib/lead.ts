@@ -1,4 +1,4 @@
-import { WHATSAPP_NUMBER } from './content'
+import { OFFERS, WHATSAPP_NUMBER } from './content'
 
 export interface LeadValues {
   nome: string
@@ -70,14 +70,23 @@ export function captureUtms(): Record<string, string> {
   return out
 }
 
-export function buildMessage(v: LeadValues, utms: Record<string, string>): string {
+const NO_OFFER_CHOSEN = 'Ainda não escolhi, quero conhecer as ofertas'
+
+function offerTitle(id: string): string {
+  return OFFERS.find((o) => o.id === id)?.title ?? NO_OFFER_CHOSEN
+}
+
+export function buildMessage(v: LeadValues, utms: Record<string, string>, offer: string | null): string {
   const origem = Object.keys(utms).length
     ? ['utm_source', 'utm_campaign'].filter((k) => utms[k]).map((k) => `${k}=${utms[k]}`).join(' | ') ||
       'campanha identificada'
     : 'acesso direto'
   const lines = [
-    'Olá, equipe Unect Jr.! Quero solicitar o *Diagnóstico Operacional Gratuito*.',
+    offer === null
+      ? 'Olá, equipe Unect Jr.! Quero solicitar o *Diagnóstico Operacional Gratuito*.'
+      : 'Olá, equipe Unect Jr.! Quero aproveitar a *UBlack*.',
     '',
+    ...(offer === null ? [] : [`*Oferta escolhida:* ${offerTitle(offer)}`]),
     `*Nome:* ${v.nome.trim()}`,
     `*Empresa:* ${v.empresa.trim()}`,
     `*Maior desafio:* ${v.desafio}`,
@@ -103,10 +112,10 @@ function w(): TrackWindow {
   return window as unknown as TrackWindow
 }
 
-export function trackLead(v: LeadValues) {
+export function trackLead(v: LeadValues, offer: string) {
   try {
-    w().gtag?.('event', 'generate_lead', { segmento: v.segmento, equipe: v.equipe })
-    w().fbq?.('track', 'Lead', { content_name: 'Diagnostico Gratuito' })
+    w().gtag?.('event', 'generate_lead', { segmento: v.segmento, equipe: v.equipe, oferta: offer })
+    w().fbq?.('track', 'Lead', { content_name: 'UBlack', content_category: offer || 'sem-oferta' })
   } catch {
   }
 }
